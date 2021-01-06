@@ -18,7 +18,7 @@ export default function Vehicles() {
       .get()
       .then((result) => {
         result.forEach((doc) => {
-          output.push(doc.data());
+          output.push({id: doc.id, data: doc.data()});
           setError("");
         });
       })
@@ -50,12 +50,12 @@ export default function Vehicles() {
             {vehicles.length > 0 ?
             (
               vehicles.map((row) => (
-                <tr key={row.plate}>
-                  <td>{row.plate}</td>
-                  <td>{row.make}</td>
-                  <td>{row.model}</td>
+                <tr key={row.data.plate}>
+                  <td>{row.data.plate}</td>
+                  <td>{row.data.make}</td>
+                  <td>{row.data.model}</td>
                   <td>
-                    <Link to={`/edit/vehicle/${row.plate}`}>Edit</Link>
+                    <Link to={`/edit/vehicle/${row.id}`}>Edit</Link>
                   </td>
                 </tr>
               ))

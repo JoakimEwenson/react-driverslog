@@ -34,7 +34,7 @@ export default function VehicleForm() {
   const history = useHistory();
 
   function fetchVehicleData(id) {
-    var docRef = db.collection("vehicles").doc(`${currentUser.uid}_${id}`);
+    var docRef = db.collection("vehicles").doc(id);
     docRef
       .get()
       .then((doc) => {
@@ -95,15 +95,27 @@ export default function VehicleForm() {
       plateRef.current.value,
       isPrivateRef.current.checked
     );
-    try {
-      db.collection("vehicles")
-        .doc(`${currentUser.uid}_${plateRef.current.value}`)
-        .set(Object.assign({}, vehicle));
-      setMessage("New vehicle created.");
-      history.push("/vehicles");
-    } catch (error) {
-      setError(`Error saving vehicle data. ${error}`);
-      setLoading(false);
+    if (isEdit) {
+      try {
+        db.collection("vehicles")
+          .doc(vehicleId)
+          .set(Object.assign({}, vehicle));
+        setMessage("New vehicle created.");
+        history.push("/vehicles");
+      } catch (error) {
+        setError(`Error saving vehicle data. ${error}`);
+        setLoading(false);
+      }
+    } else {
+      try {
+        db.collection("vehicles")
+          .add(Object.assign({}, vehicle));
+        setMessage("New vehicle created.");
+        history.push("/vehicles");
+      } catch (error) {
+        setError(`Error saving vehicle data. ${error}`);
+        setLoading(false);
+      }
     }
   }
 
@@ -124,7 +136,6 @@ export default function VehicleForm() {
                   id="vehicle-plate"
                   placeholder="Plate number"
                   ref={plateRef}
-                  disabled={isEdit}
                   onBlur={vehicleExists}
                   required
                 />
