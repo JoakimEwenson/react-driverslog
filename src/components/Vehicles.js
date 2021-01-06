@@ -11,23 +11,21 @@ export default function Vehicles() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    var output = [];
-    db.collection("vehicles")
-      .where("owner_id", "==", currentUser.uid)
-      .orderBy("created_timestamp", "asc")
-      .get()
-      .then((result) => {
-        result.forEach((doc) => {
+    const unsubscribe = db.collection("vehicles")
+    .where("owner_id", "==", currentUser.uid)
+    .orderBy("created_timestamp", "asc")
+    .onSnapshot((snap) => {
+        var output = [];
+        setError("");
+        snap.forEach((doc) => {
           output.push({id: doc.id, data: doc.data()});
-          setError("");
         });
-      })
-      .catch((error) => {
-        setError(`Error fetching document. ${error}`);
-      })
-      .finally(() => {
         setVehicles(output);
+      }, (error) => {
+        setError(`Error while fetching data. ${error}`)
       });
+
+      return () => unsubscribe;
   }, [currentUser]);
 
   return (
@@ -37,7 +35,7 @@ export default function Vehicles() {
         <h3>Vehicles</h3>
         <Link to="/add/vehicle">Add new vehicle</Link>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Table striped bordered className="mt-3">
+        <Table responsive striped bordered className="mt-3">
           <thead>
             <tr>
               <th>Plate</th>

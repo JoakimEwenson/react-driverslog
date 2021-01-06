@@ -12,44 +12,33 @@ export default function Logbook() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    var output = [];
+    var query;
     if (vehicleId) {
-      db.collection("logposts")
+      query = db
+        .collection("logposts")
         .where("owner_id", "==", currentUser.uid)
         .where("vehicle", "==", vehicleId)
-        .orderBy("created_timestamp", "desc")
-        .get()
-        .then((result) => {
-          result.forEach((doc) => {
-            output.push({ id: doc.id, data: doc.data() });
-            //output.push(doc.data());
-            setError("");
-          });
-        })
-        .catch((error) => {
-          setError(`Error fetching document. ${error}`);
-        })
-        .finally(() => {
-          setLogposts(output);
-        });
+        .orderBy("created_timestamp", "desc");
     } else {
-      db.collection("logposts")
+      query = db
+        .collection("logposts")
         .where("owner_id", "==", currentUser.uid)
-        .orderBy("created_timestamp", "desc")
-        .get()
-        .then((result) => {
-          result.forEach((doc) => {
-            output.push({ id: doc.id, data: doc.data() });
-            setError("");
-          });
-        })
-        .catch((error) => {
-          setError(`Error fetching document. ${error}`);
-        })
-        .finally(() => {
-          setLogposts(output);
-        });
+        .orderBy("created_timestamp", "desc");
     }
+    const unsubscribe = query.onSnapshot(
+      (snap) => {
+        var output = [];
+        setError("");
+        snap.forEach((doc) => {
+          output.push({ id: doc.id, data: doc.data() });
+        });
+        setLogposts(output);
+      },
+      (error) => {
+        setError(`Error while fetching data. ${error}`);
+      }
+    );
+    return () => unsubscribe;
   }, [currentUser, vehicleId]);
 
   return (
@@ -64,7 +53,7 @@ export default function Logbook() {
         )}
         {error && <Alert variant="danger">{error}</Alert>}
         {logposts && (
-          <Table striped bordered className="mt-3">
+          <Table responsive striped bordered className="mt-3">
             <thead>
               <tr>
                 <th>Date</th>
@@ -79,7 +68,7 @@ export default function Logbook() {
             <tbody>
               {logposts.length > 0 ? (
                 logposts.map((row) => (
-                  <tr key={row.data.created_timestamp.seconds}>
+                  <tr key={row.id}>
                     <td>
                       {new Date(
                         row.data.created_timestamp.seconds * 1000
@@ -93,7 +82,7 @@ export default function Logbook() {
                       </td>
                     )}
                     <td>{parseFloat(row.data.distance).toFixed(1)} km</td>
-                    <td>{parseFloat(row.data.fuel).toFixed(2)}l</td>
+                    <td>{parseFloat(row.data.fuel).toFixed(2)} liter</td>
                     <td>
                       {parseFloat(row.data.fuelprice)}{" "}
                       {row.data.currency === "SEK"
@@ -103,7 +92,8 @@ export default function Logbook() {
                     <td>
                       {parseFloat(
                         (row.data.fuel / row.data.distance) * 100
-                      ).toFixed(2)}l/100 km
+                      ).toFixed(2)}{" "}
+                      l/100 km
                     </td>
                     <td>
                       <Link to={`/edit/logpost/${row.id}`}>Edit</Link>

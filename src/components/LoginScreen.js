@@ -31,7 +31,6 @@ export default function LoginScreen() {
       setError(`Failed to sign in! ${e}`);
       setLoading(false);
     }
-
   }
 
   return (
@@ -48,6 +47,7 @@ export default function LoginScreen() {
               <Form.Group>
                 <Form.Label>E-mail</Form.Label>
                 <FormControl
+                  autoComplete="username"
                   id="logbook-email"
                   placeholder="name@domain.com"
                   type="email"
@@ -58,6 +58,7 @@ export default function LoginScreen() {
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <FormControl
+                  autoComplete="current-password"
                   id="logbook-password"
                   type="password"
                   placeholder="*****"
