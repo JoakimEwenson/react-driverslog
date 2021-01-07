@@ -64,7 +64,7 @@ export default function Vehicles() {
               ))
             ) : (
               <tr>
-                <td colSpan="5">No vehicles found</td>
+                <td colSpan="4">No vehicles found</td>
               </tr>
             )}
           </tbody>

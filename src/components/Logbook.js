@@ -105,7 +105,7 @@ export default function Logbook() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7">No logposts found.</td>
+                  <td colSpan={vehicleId ? "6" : "7"}>No logposts found.</td>
                 </tr>
               )}
             </tbody>
@@ -113,7 +113,7 @@ export default function Logbook() {
           </>
         )}
         {vehicleId && (
-          <Container className="mb-3 text-center">
+          <Container className="my-3 text-center">
             <Link to="/logbook">Back to logbook</Link>
           </Container>
         )}
