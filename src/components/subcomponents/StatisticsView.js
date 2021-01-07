@@ -63,7 +63,7 @@ export default function StatisticsView({ data }) {
             </Col>
           </Row>
           <Container className="text-center mt-3">
-            <p className="text-muted">
+            <p className="text-muted small">
               Statistics based on {data.length} entries stored in the logbook.
             </p>
           </Container>
@@ -71,6 +71,6 @@ export default function StatisticsView({ data }) {
       </Card>
     );
   } else {
-    return <></>;
+    return <div></div>;
   }
 }

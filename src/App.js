@@ -1,4 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import "./App.css";
 // Custom components
 import Dashboard from "./components/Dashboard";
 import LoginScreen from "./components/LoginScreen";
