@@ -57,18 +57,21 @@ export default function VehicleForm() {
   }
 
   function vehicleExists() {
-    if (vehicleId == null || vehicleId === "") {
+    if (!isEdit) {
       db.collection("vehicles")
-        .doc(`${currentUser.uid}_${plateRef.current.value}`)
+        .where("plate", "==", plateRef.current.value)
         .get()
         .then((doc) => {
-          if (doc.exists) {
+          if (!doc.empty) {
             setError("Vehicle exists");
             setLoading(true);
           } else {
             setError("");
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          console.error(error);
         });
     }
   }
@@ -108,8 +111,7 @@ export default function VehicleForm() {
       }
     } else {
       try {
-        db.collection("vehicles")
-          .add(Object.assign({}, vehicle));
+        db.collection("vehicles").add(Object.assign({}, vehicle));
         setMessage("New vehicle created.");
         history.push("/vehicles");
       } catch (error) {
@@ -132,7 +134,7 @@ export default function VehicleForm() {
               <Form.Group>
                 <Form.Label>Plate number</Form.Label>
                 <FormControl
-                autoComplete="false"
+                  autoComplete="false"
                   id="vehicle-plate"
                   placeholder="Plate number"
                   ref={plateRef}

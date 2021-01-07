@@ -25,7 +25,7 @@ export default function Vehicles() {
         setError(`Error while fetching data. ${error}`)
       });
 
-      return () => unsubscribe;
+      return () => unsubscribe();
   }, [currentUser]);
 
   return (
