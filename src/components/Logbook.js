@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import AppMenu from "./AppMenu";
+import StatisticsView from "./subcomponents/StatisticsView";
 
 export default function Logbook() {
   const { vehicleId } = useParams();
@@ -53,6 +54,8 @@ export default function Logbook() {
         )}
         {error && <Alert variant="danger">{error}</Alert>}
         {logposts && (
+          <>
+          <StatisticsView data={logposts} />
           <Table responsive striped bordered className="mt-3">
             <thead>
               <tr>
@@ -107,6 +110,7 @@ export default function Logbook() {
               )}
             </tbody>
           </Table>
+          </>
         )}
         {vehicleId && (
           <Container className="mb-3 text-center">

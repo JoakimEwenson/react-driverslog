@@ -1,0 +1,50 @@
+.statscard h1 {
+  display: inline;
+  font-size: 40pt;
+  font-weight: 600;
+}
+
+.statscard p {
+  font-size: 10pt;
+  margin-left: 3px;
+}
+
+.statscard span {
+  font-size: 13pt;
+  margin-left: 3px;
+  display: inline;
+}
+
+.statscard .log-comment {
+  font-size: 14pt;
+  line-height: 1.5;
+}
+
+
+@media all and (max-width: 1000px) {
+  .card {
+    max-width: 90%;
+  }
+
+  .statscard h1 {
+    font-size: 34pt;
+  }
+
+  .statscard span {
+    display: block;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .statscard h1 {
+    font-size: 30pt;
+  }
+
+  .statscard span {
+    display: block;
+  }
+
+  .table {
+    font-size: 10pt;
+  }
+}

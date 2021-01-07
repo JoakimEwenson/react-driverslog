@@ -54,7 +54,7 @@ export default function Vehicles() {
             {vehicles.length > 0 ? (
               vehicles.map((row) => (
                 <tr key={row.data.plate}>
-                  <td>{row.data.plate}</td>
+                  <td><Link to={`/logbook/${row.data.plate}`}>{row.data.plate}</Link></td>
                   <td>{row.data.make}</td>
                   <td>{row.data.model}</td>
                   <td>
