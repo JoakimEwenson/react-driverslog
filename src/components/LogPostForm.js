@@ -6,6 +6,7 @@ import {
   Form,
   Container,
   FormControl,
+  Modal,
 } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -30,8 +31,14 @@ export default function LogPostForm() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ownerId, setOwnerId] = useState("");
   const [vehicles, setVehicles] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
+
+  // Handle delete modal
+  const handleClose = () => setShowDeleteModal(false);
+  const handleShow = () => setShowDeleteModal(true);
 
   function fetchLogpostData(id) {
     var docRef = db.collection("logposts").doc(id);
@@ -52,6 +59,8 @@ export default function LogPostForm() {
           fuelPriceRef.current.value = data.fuelprice;
           commentRef.current.value = data.comment;
           isPrivateRef.current.Check = data.isPrivate;
+          // Set owner id
+          setOwnerId(data.owner_id);
         } else {
           setError("No data found.");
         }
@@ -90,7 +99,7 @@ export default function LogPostForm() {
       try {
         db.collection("logposts").doc(postId).set(Object.assign({}, logpost));
         setMessage("Logbook entry saved.");
-        history.push(`/logbook/${plateRef.current.value}`)
+        //history.push(`/logbook/${plateRef.current.value}`);
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -99,7 +108,7 @@ export default function LogPostForm() {
       try {
         db.collection("logposts").add(Object.assign({}, logpost));
         setMessage("New logbook entry created.");
-        history.push("/logbook/")
+        //history.push("/logbook/");
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -107,10 +116,33 @@ export default function LogPostForm() {
     }
   }
 
+  async function handleRemoveEntry(e) {
+    e.preventDefault();
+    if (ownerId === currentUser.uid && (postId !== null || postId !== "")) {
+      try {
+        db.collection("logposts")
+          .doc(postId)
+          .delete()
+          .then(() => {
+            setError("");
+            setShowDeleteModal(false);
+            history.push("/logbook");
+          }).catch((error) => {
+            console.error(error);
+            setError(`Error deleting data. ${error}`);
+          });
+      } catch (error) {
+        setError(`Error deleting data. ${error}`);
+      }
+    } else {
+      console.error("Nope...");
+    }
+  }
+
   // Fetch list of vehicles and populate a select-field
   useEffect(() => {
     var output = [];
-    db.collection("vehicles")
+    const unsubscribe = db.collection("vehicles")
       .where("owner_id", "==", currentUser.uid)
       .orderBy("plate", "asc")
       .get()
@@ -127,6 +159,8 @@ export default function LogPostForm() {
       .finally(() => {
         setVehicles(output);
       });
+
+      return () => unsubscribe;
   }, [currentUser]);
 
   return (
@@ -230,15 +264,43 @@ export default function LogPostForm() {
                   ref={isPrivateRef}
                 />
               </Form.Group>
-              <Form.Group className="mt-5">
+              <Form.Group className="my-3">
                 <Button type="submit" disabled={loading} className="w-100">
                   Save data
                 </Button>
               </Form.Group>
+              {isEdit ? (
+                <Container className="text-center">
+                  <Button variant="danger" onClick={handleShow}>
+                    Delete
+                  </Button>
+                </Container>
+              ) : (
+                <></>
+              )}
+              <Modal show={showDeleteModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Delete logbook entry</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Container className="text-center">
+                    <p>
+                      Are you really sure that you want to delete this entry?
+                    </p>
+                    <Button
+                      variant="danger"
+                      className="mx-auto text-center"
+                      onClick={handleRemoveEntry}
+                    >
+                      Delete this entry!
+                    </Button>
+                  </Container>
+                </Modal.Body>
+              </Modal>
             </Form>
           </Card.Body>
         </Card>
-        <Container className="text-center mb-3">
+        <Container className="text-center my-3">
           <Link to="/logbook">Back to logbook</Link>
         </Container>
       </Container>

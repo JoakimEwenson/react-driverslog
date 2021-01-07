@@ -11,21 +11,27 @@ export default function Vehicles() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const unsubscribe = db.collection("vehicles")
-    .where("owner_id", "==", currentUser.uid)
-    .orderBy("created_timestamp", "asc")
-    .onSnapshot((snap) => {
-        var output = [];
-        setError("");
-        snap.forEach((doc) => {
-          output.push({id: doc.id, data: doc.data()});
-        });
-        setVehicles(output);
-      }, (error) => {
-        setError(`Error while fetching data. ${error}`)
-      });
+    let mounted = true;
+    db.collection("vehicles")
+      .where("owner_id", "==", currentUser.uid)
+      .orderBy("created_timestamp", "asc")
+      .onSnapshot(
+        (snap) => {
+          if (mounted) {
+            var output = [];
+            setError("");
+            snap.forEach((doc) => {
+              output.push({ id: doc.id, data: doc.data() });
+            });
+            setVehicles(output);
+          }
+        },
+        (error) => {
+          setError(`Error while fetching data. ${error}`);
+        }
+      );
 
-      return () => unsubscribe();
+    return () => mounted = false;
   }, [currentUser]);
 
   return (
@@ -45,8 +51,7 @@ export default function Vehicles() {
             </tr>
           </thead>
           <tbody>
-            {vehicles.length > 0 ?
-            (
+            {vehicles.length > 0 ? (
               vehicles.map((row) => (
                 <tr key={row.data.plate}>
                   <td>{row.data.plate}</td>
@@ -57,9 +62,7 @@ export default function Vehicles() {
                   </td>
                 </tr>
               ))
-            )
-              :
-              (
+            ) : (
               <tr>
                 <td colSpan="5">No vehicles found</td>
               </tr>

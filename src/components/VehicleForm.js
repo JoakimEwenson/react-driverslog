@@ -3,9 +3,10 @@ import {
   Alert,
   Button,
   Card,
-  Form,
   Container,
+  Form,
   FormControl,
+  Modal,
 } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -31,7 +32,12 @@ export default function VehicleForm() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ownerId, setOwnerId] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
+  // Handle delete modal
+  const handleClose = () => setShowDeleteModal(false);
+  const handleShow = () => setShowDeleteModal(true);
 
   function fetchVehicleData(id) {
     var docRef = db.collection("vehicles").doc(id);
@@ -47,6 +53,8 @@ export default function VehicleForm() {
           modelYearRef.current.value = data.modelyear;
           displayNameRef.current.value = data.displayname;
           isPrivateRef.current.checked = data.isPrivate;
+          // Set owner id from Firestore data
+          setOwnerId(data.owner_id);
         } else {
           setError("No vehicle found.");
         }
@@ -103,8 +111,8 @@ export default function VehicleForm() {
         db.collection("vehicles")
           .doc(vehicleId)
           .set(Object.assign({}, vehicle));
-        setMessage("New vehicle created.");
-        history.push("/vehicles");
+        setMessage("Vehicle data saved.");
+        //history.push("/vehicles");
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -113,11 +121,51 @@ export default function VehicleForm() {
       try {
         db.collection("vehicles").add(Object.assign({}, vehicle));
         setMessage("New vehicle created.");
-        history.push("/vehicles");
+        //history.push("/vehicles");
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
       }
+    }
+  }
+
+  async function handleRemoveVehicle(e) {
+    e.preventDefault();
+    if (
+      ownerId === currentUser.uid &&
+      (vehicleId !== null || vehicleId !== "")
+    ) {
+      try {
+        db.collection("logposts")
+          .where("vehicle", "==", plateRef.current.value)
+          .where("owner_id", "==", currentUser.uid)
+          .get()
+          .then((docs) => {
+            docs.forEach((row) => {
+              db.collection("logposts")
+                .doc(row.id)
+                .delete()
+                .catch((error) => console.error(error));
+            });
+          })
+          .catch((error) => console.error(error));
+        db.collection("vehicles")
+          .doc(vehicleId)
+          .delete()
+          .then(() => {
+            setError("");
+            setShowDeleteModal(false);
+            history.push("/vehicles");
+          })
+          .catch((error) => {
+            console.error(error);
+            setError(`Error deleting data. ${error}`);
+          });
+      } catch (error) {
+        setError(`Error deleting data. ${error}`);
+      }
+    } else {
+      console.error("Nope...");
     }
   }
 
@@ -177,15 +225,47 @@ export default function VehicleForm() {
               <Form.Group>
                 <Form.Switch id="private" label="Private" ref={isPrivateRef} />
               </Form.Group>
-              <Form.Group className="mt-5">
+              <Form.Group className="my-3">
                 <Button type="submit" disabled={loading} className="w-100">
                   Save data
                 </Button>
               </Form.Group>
+              {isEdit ? (
+                <Container className="text-center">
+                  <Button variant="danger" onClick={handleShow}>
+                    Delete
+                  </Button>
+                </Container>
+              ) : (
+                <></>
+              )}
+              <Modal show={showDeleteModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Delete logbook entry</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Container className="text-center">
+                    <p className="text-left">
+                      Are you really sure that you want to delete this vehicle?
+                    </p>
+                    <p className="text-left">
+                      Deleting the vehicle <strong>will also</strong> delete all
+                      logposts that belongs to the vehicle.
+                    </p>
+                    <Button
+                      variant="danger"
+                      className="mx-auto text-center"
+                      onClick={handleRemoveVehicle}
+                    >
+                      Delete this entry!
+                    </Button>
+                  </Container>
+                </Modal.Body>
+              </Modal>
             </Form>
           </Card.Body>
         </Card>
-        <Container className="text-center mb-3">
+        <Container className="text-center my-3">
           <Link to="/vehicles">Back to vehicles</Link>
         </Container>
       </Container>
