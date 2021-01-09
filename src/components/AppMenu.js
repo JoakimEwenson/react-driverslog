@@ -1,3 +1,4 @@
+import { Assignment, Commute, Dashboard, ExitToApp, Settings } from "@material-ui/icons";
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -26,28 +27,29 @@ export default function AppMenu() {
         <Nav className="ml-auto">
           <LinkContainer to="/dashboard" eventKey="dashboard">
             <Nav.Link>
-              <i className="fas fa-th-large"></i> Dashboard
+              <Dashboard /> Dashboard
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/edit/user" eventKey="settings">
             <Nav.Link>
-              <i className="fas fa-cogs"></i> User settings
+              <Settings /> User settings
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/vehicles" eventKey="vehicles">
             <Nav.Link>
-              <i className="fas fa-car-side"></i> Vehicles
+              <Commute /> Vehicles
             </Nav.Link>
           </LinkContainer>
 
           <LinkContainer to="/logbook" eventKey="logposts">
             <Nav.Link>
-              <i className="fas fa-book"></i> Logbook
+              <Assignment /> Logbook
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/logout" onClick={handleLogout} eventKey="logout">
             <Nav.Link className="justify-content-end">
-              <i className="fas fa-sign-out-alt"></i> Log out ({currentUser.email})
+              <ExitToApp /> Log out (
+              {currentUser.email})
             </Nav.Link>
           </LinkContainer>
         </Nav>
