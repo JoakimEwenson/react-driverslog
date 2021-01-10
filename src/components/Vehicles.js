@@ -14,7 +14,7 @@ export default function Vehicles() {
     let mounted = true;
     db.collection("vehicles")
       .where("owner_id", "==", currentUser.uid)
-      .orderBy("created_timestamp", "asc")
+      .orderBy("created_timestamp", "desc")
       .onSnapshot(
         (snap) => {
           if (mounted) {
