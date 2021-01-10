@@ -51,22 +51,32 @@ export default function CarStatistics({ data }) {
     <>
       {error && <Alert variant="danger">{error}</Alert>}
       {stats.entries > 0 ? (
-        <Card className="logbook-card">
+        <Card className="logbook-card statscard">
           <Card.Body className="text-center">
-            <h3>
-              <Link to={`/logbook/${data.plate}`}>{data.plate}</Link>
-            </h3>
-            <span className="text-muted small">
-              {stats.entries} logbook entries
-            </span>
-            <h1>
-              {stats.consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
-            </h1>
-            <span className="text-muted small">l/100 km avg.</span>
-            <h1>{stats.pricePerDistance.toFixed(2).toLocaleString("sv-SE")}</h1>
-            <span className="text-muted small">kr/100 km</span>
-            <h1>{stats.avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
-            <span className="text-muted small">kr/liter</span>
+            <div>
+              <h3>
+                <Link to={`/logbook/${data.plate}`}>{data.plate}</Link>
+              </h3>
+              <span className="text-muted small">
+                {stats.entries} logbook entries
+              </span>
+            </div>
+            <div>
+              <h1>
+                {stats.consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
+              </h1>
+              <span className="text-muted small">l/100 km</span>
+            </div>
+            <div>
+              <h1>
+                {stats.pricePerDistance.toFixed(2).toLocaleString("sv-SE")}
+              </h1>
+              <span className="text-muted small">kr/100 km</span>
+            </div>
+            <div>
+              <h1>{stats.avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
+              <span className="text-muted small">kr/liter</span>
+            </div>
           </Card.Body>
         </Card>
       ) : (
@@ -76,7 +86,8 @@ export default function CarStatistics({ data }) {
               <Link to={`/logbook/${data.plate}`}>{data.plate}</Link>
             </h3>
             <span className="text-muted small">
-              No logbook entries found.<br />
+              No logbook entries found.
+              <br />
               Please <Link to="/add/logpost/">add one</Link> to show statistics.
             </span>
           </Card.Body>

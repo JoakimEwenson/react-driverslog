@@ -20,52 +20,49 @@ export default function StatisticsView({ data }) {
 
   if (data.length > 0) {
     return (
-      <Card className="mx-auto my-3 logbook-card">
+      <Card className="mx-auto my-3 logbook-card statscard">
         <Card.Body>
           <Row className="text-center">
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span>
+              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalDistance).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">km</span>
-              <br />
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span>
+              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalFuel).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">liter</span>
-              <br />
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span>
+              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalPrice).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">kr</span>
-              <br />
             </Col>
           </Row>
           <hr className="mx-auto my-3" />
           <Row className="text-center">
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span>
+              <span className="text-muted">avg</span><br />
               <h1>
                 {consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
               </h1>
-              <p className="text-muted">liter/100 km</p>
+              <span className="text-muted">liter/100 km</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span>
+              <span className="text-muted">avg</span><br />
               <h1>{pricePerDistance.toFixed(2).toLocaleString("sv-SE")}</h1>
-              <p className="text-muted">kr/100 km</p>
+              <span className="text-muted">kr/100 km</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span>
+              <span className="text-muted">avg</span><br />
               <h1>{avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
-              <p className="text-muted">kr/liter</p>
+              <span className="text-muted">kr/liter</span>
             </Col>
           </Row>
           <Container className="text-center my-3">
-            <p className="text-muted small">
+            <span className="text-muted small">
               Statistics based on {data.length} entries stored in the logbook.
-            </p>
+            </span>
           </Container>
         </Card.Body>
       </Card>

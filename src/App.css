@@ -11,7 +11,7 @@ body {
 
 .statscard h1 {
   display: inline;
-  font-size: 40pt;
+  font-size: 32pt;
   font-weight: 600;
 }
 
@@ -31,10 +31,9 @@ body {
   line-height: 1.5;
 }
 
-
 @media all and (max-width: 1000px) {
   .statscard h1 {
-    font-size: 34pt;
+    font-size: 26pt;
   }
 
   .statscard span {
@@ -44,10 +43,14 @@ body {
 
 @media all and (max-width: 400px) {
   .statscard h1 {
-    font-size: 30pt;
+    font-size: 26pt;
   }
 
   .statscard span {
     display: block;
+  }
+
+  .table {
+    font-size: 10pt;
   }
 }
