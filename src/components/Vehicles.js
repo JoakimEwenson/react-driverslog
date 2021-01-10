@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Container, Table } from "react-bootstrap";
+import { Alert, Card, Container, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -31,7 +31,7 @@ export default function Vehicles() {
         }
       );
 
-    return () => mounted = false;
+    return () => (mounted = false);
   }, [currentUser]);
 
   return (
@@ -41,34 +41,40 @@ export default function Vehicles() {
         <h3>Vehicles</h3>
         <Link to="/add/vehicle">Add new vehicle</Link>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Table responsive striped bordered className="mt-3">
-          <thead>
-            <tr>
-              <th>Plate</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vehicles.length > 0 ? (
-              vehicles.map((row) => (
-                <tr key={row.data.plate}>
-                  <td><Link to={`/logbook/${row.data.plate}`}>{row.data.plate}</Link></td>
-                  <td>{row.data.make}</td>
-                  <td>{row.data.model}</td>
-                  <td>
-                    <Link to={`/edit/vehicle/${row.id}`}>Edit</Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <Card className="my-3">
+          <Table responsive striped borderless className="m-0 p-0">
+            <thead>
               <tr>
-                <td colSpan="4">No vehicles found</td>
+                <th>Plate</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>&nbsp;</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {vehicles.length > 0 ? (
+                vehicles.map((row) => (
+                  <tr key={row.data.plate}>
+                    <td>
+                      <Link to={`/logbook/${row.data.plate}`}>
+                        {row.data.plate}
+                      </Link>
+                    </td>
+                    <td>{row.data.make}</td>
+                    <td>{row.data.model}</td>
+                    <td>
+                      <Link to={`/edit/vehicle/${row.id}`}>Edit</Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No vehicles found</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Card>
       </Container>
     </>
   );

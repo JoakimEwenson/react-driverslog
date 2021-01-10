@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Container, Table } from "react-bootstrap";
+import { Alert, Card, Container, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -45,7 +45,7 @@ export default function Logbook() {
   return (
     <>
       <AppMenu />
-      <Container fluid className="mt-3">
+      <Container fluid className="my-3">
         <h3>Logbook {vehicleId && vehicleId}</h3>
         {vehicleId ? (
           <Link to={`/add/logpost/${vehicleId}`}>Add new post</Link>
@@ -56,7 +56,9 @@ export default function Logbook() {
         {logposts && (
           <>
           <StatisticsView data={logposts} />
-          <Table responsive striped bordered className="mt-3">
+          <Card className="my-3">
+
+          <Table responsive striped borderless className="m-0 p-0">
             <thead>
               <tr>
                 <th>Date</th>
@@ -110,6 +112,7 @@ export default function Logbook() {
               )}
             </tbody>
           </Table>
+          </Card>
           </>
         )}
         {vehicleId && (
