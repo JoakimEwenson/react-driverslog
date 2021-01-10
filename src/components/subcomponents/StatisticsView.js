@@ -22,39 +22,35 @@ export default function StatisticsView({ data }) {
     return (
       <Card className="mx-auto my-3 logbook-card statscard">
         <Card.Body>
+            <h5 className="text-center text-uppercase">Total</h5>
           <Row className="text-center">
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalDistance).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">km</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalFuel).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">liter</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">total</span><br />
               <h1>{parseInt(totalPrice).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">kr</span>
             </Col>
           </Row>
           <hr className="mx-auto my-3" />
+            <h5 className="text-center text-uppercase">Average</h5>
           <Row className="text-center">
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span><br />
               <h1>
                 {consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
               </h1>
               <span className="text-muted">liter/100 km</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span><br />
               <h1>{pricePerDistance.toFixed(2).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">kr/100 km</span>
             </Col>
             <Col sm={4} className="my-3">
-              <span className="text-muted">avg</span><br />
               <h1>{avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">kr/liter</span>
             </Col>
