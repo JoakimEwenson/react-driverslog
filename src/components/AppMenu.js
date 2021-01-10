@@ -10,6 +10,7 @@ import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Logo from "../logo.svg"
 
 export default function AppMenu() {
   const { currentUser, logout } = useAuth();
@@ -29,6 +30,7 @@ export default function AppMenu() {
     <Navbar bg="dark" variant="dark" expand="lg">
       <LinkContainer to="/dashboard" eventKey="dashboard">
         <Navbar.Brand>
+          <img src={Logo} alt="React logo" style={{width: "50px"}} />
           Drivers logbook
         </Navbar.Brand>
       </LinkContainer>
