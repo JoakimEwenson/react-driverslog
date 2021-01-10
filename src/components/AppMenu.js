@@ -1,4 +1,10 @@
-import { Assignment, Commute, Dashboard, ExitToApp, Settings } from "@material-ui/icons";
+import {
+  Assignment,
+  Commute,
+  Dashboard,
+  ExitToApp,
+  Settings,
+} from "@material-ui/icons";
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -21,7 +27,11 @@ export default function AppMenu() {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand>Drivers logbook</Navbar.Brand>
+      <LinkContainer to="/dashboard" eventKey="dashboard">
+        <Navbar.Brand>
+          Drivers logbook
+        </Navbar.Brand>
+      </LinkContainer>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
@@ -48,8 +58,7 @@ export default function AppMenu() {
           </LinkContainer>
           <LinkContainer to="/logout" onClick={handleLogout} eventKey="logout">
             <Nav.Link className="justify-content-end">
-              <ExitToApp /> Log out (
-              {currentUser.email})
+              <ExitToApp /> Log out ({currentUser.email})
             </Nav.Link>
           </LinkContainer>
         </Nav>
