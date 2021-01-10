@@ -173,7 +173,7 @@ export default function VehicleForm() {
     <>
       <AppMenu />
       <Container>
-        <Card className="mt-3">
+        <Card className="my-3 logbook-card">
           <Card.Body>
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}

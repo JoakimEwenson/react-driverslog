@@ -74,7 +74,7 @@ export default function UserForm() {
     <>
       <AppMenu />
       <Container>
-        <Card className="mt-3 logbook-card">
+        <Card className="my-3 logbook-card">
           <Card.Body>
             {error && <Alert variant="danger">{error}</Alert>}
             {messages &&

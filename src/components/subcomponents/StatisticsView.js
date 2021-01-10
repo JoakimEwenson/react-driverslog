@@ -23,19 +23,19 @@ export default function StatisticsView({ data }) {
       <Card className="mx-auto my-3 logbook-card">
         <Card.Body>
           <Row className="text-center">
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">total</span>
               <h1>{parseInt(totalDistance).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">km</span>
               <br />
             </Col>
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">total</span>
               <h1>{parseInt(totalFuel).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">liter</span>
               <br />
             </Col>
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">total</span>
               <h1>{parseInt(totalPrice).toLocaleString("sv-SE")}</h1>
               <span className="text-muted">kr</span>
@@ -44,25 +44,25 @@ export default function StatisticsView({ data }) {
           </Row>
           <hr className="mx-auto my-3" />
           <Row className="text-center">
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">avg</span>
               <h1>
                 {consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
               </h1>
               <p className="text-muted">liter/100 km</p>
             </Col>
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">avg</span>
               <h1>{pricePerDistance.toFixed(2).toLocaleString("sv-SE")}</h1>
               <p className="text-muted">kr/100 km</p>
             </Col>
-            <Col sm={4}>
+            <Col sm={4} className="my-3">
               <span className="text-muted">avg</span>
               <h1>{avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
               <p className="text-muted">kr/liter</p>
             </Col>
           </Row>
-          <Container className="text-center mt-3">
+          <Container className="text-center my-3">
             <p className="text-muted small">
               Statistics based on {data.length} entries stored in the logbook.
             </p>

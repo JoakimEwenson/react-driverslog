@@ -37,7 +37,7 @@ export default function Vehicles() {
   return (
     <>
       <AppMenu />
-      <Container fluid className="mt-3">
+      <Container fluid className="my-3">
         <h3>Vehicles</h3>
         <Link to="/add/vehicle">Add new vehicle</Link>
         {error && <Alert variant="danger">{error}</Alert>}

@@ -168,7 +168,7 @@ export default function LogPostForm() {
       <AppMenu />
 
       <Container>
-        <Card className="mt-3">
+        <Card className="my-3 logbook-card">
           <Card.Body>
             <Form onSubmit={handleSubmit}>
               <h5>Logpost data</h5>

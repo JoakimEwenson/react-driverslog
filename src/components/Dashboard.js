@@ -10,7 +10,7 @@ export default function Dashboard() {
   return (
     <>
       <AppMenu />
-      <Container fluid className="mt-3">
+      <Container fluid className="my-3">
         <h1>Welcome {currentUser.displayName && currentUser.displayName}</h1>
         <p className="lead">
           This is a demo of a drivers logbook using React and Firebase FireStore
