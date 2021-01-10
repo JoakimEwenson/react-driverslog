@@ -5,6 +5,10 @@ body {
   font-family: 'IBM Plex Sans', 'Open Sans', sans-serif;
 }
 
+.logbook-card {
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+
 .statscard h1 {
   display: inline;
   font-size: 40pt;
@@ -29,10 +33,6 @@ body {
 
 
 @media all and (max-width: 1000px) {
-  .card {
-    max-width: 90%;
-  }
-
   .statscard h1 {
     font-size: 34pt;
   }
@@ -49,9 +49,5 @@ body {
 
   .statscard span {
     display: block;
-  }
-
-  .table {
-    font-size: 10pt;
   }
 }

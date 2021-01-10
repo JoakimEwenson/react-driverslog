@@ -43,7 +43,7 @@ export default function SignUp() {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card className="mt-3">
+        <Card className="my-3 logbook-card">
           <Card.Body>
             <Form onSubmit={handleSubmit}>
               <h3>Sign up</h3>

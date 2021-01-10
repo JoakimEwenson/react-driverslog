@@ -55,64 +55,65 @@ export default function Logbook() {
         {error && <Alert variant="danger">{error}</Alert>}
         {logposts && (
           <>
-          <StatisticsView data={logposts} />
-          <Card className="my-3">
-
-          <Table responsive striped borderless className="m-0 p-0">
-            <thead>
-              <tr>
-                <th>Date</th>
-                {!vehicleId && <th>Vehicle</th>}
-                <th>Distance</th>
-                <th>Fuel</th>
-                <th>Price</th>
-                <th>Consumption</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              {logposts.length > 0 ? (
-                logposts.map((row) => (
-                  <tr key={row.id}>
-                    <td>
-                      {new Date(
-                        row.data.created_timestamp.seconds * 1000
-                      ).toLocaleDateString("sv-SE")}
-                    </td>
-                    {!vehicleId && (
-                      <td>
-                        <Link to={`/logbook/${row.data.vehicle}`}>
-                          {row.data.vehicle}
-                        </Link>
-                      </td>
-                    )}
-                    <td>{parseFloat(row.data.distance).toFixed(1)} km</td>
-                    <td>{parseFloat(row.data.fuel).toFixed(2)} liter</td>
-                    <td>
-                      {parseFloat(row.data.fuelprice)}{" "}
-                      {row.data.currency === "SEK"
-                        ? " kr/liter"
-                        : row.data.currency + "/liter"}
-                    </td>
-                    <td>
-                      {parseFloat(
-                        (row.data.fuel / row.data.distance) * 100
-                      ).toFixed(2)}{" "}
-                      l/100 km
-                    </td>
-                    <td>
-                      <Link to={`/edit/logpost/${row.id}`}>Edit</Link>
-                    </td>
+            <StatisticsView data={logposts} />
+            <Card className="my-3 logbook-card">
+              <Table responsive striped borderless className="m-0 p-0">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    {!vehicleId && <th>Vehicle</th>}
+                    <th>Distance</th>
+                    <th>Fuel</th>
+                    <th>Price</th>
+                    <th>Consumption</th>
+                    <th>&nbsp;</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={vehicleId ? "6" : "7"}>No logposts found.</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-          </Card>
+                </thead>
+                <tbody>
+                  {logposts.length > 0 ? (
+                    logposts.map((row) => (
+                      <tr key={row.id}>
+                        <td>
+                          {new Date(
+                            row.data.created_timestamp.seconds * 1000
+                          ).toLocaleDateString("sv-SE")}
+                        </td>
+                        {!vehicleId && (
+                          <td>
+                            <Link to={`/logbook/${row.data.vehicle}`}>
+                              {row.data.vehicle}
+                            </Link>
+                          </td>
+                        )}
+                        <td>{parseFloat(row.data.distance).toFixed(1)} km</td>
+                        <td>{parseFloat(row.data.fuel).toFixed(2)} liter</td>
+                        <td>
+                          {parseFloat(row.data.fuelprice)}{" "}
+                          {row.data.currency === "SEK"
+                            ? " kr/liter"
+                            : row.data.currency + "/liter"}
+                        </td>
+                        <td>
+                          {parseFloat(
+                            (row.data.fuel / row.data.distance) * 100
+                          ).toFixed(2)}{" "}
+                          l/100 km
+                        </td>
+                        <td>
+                          <Link to={`/edit/logpost/${row.id}`}>Edit</Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={vehicleId ? "6" : "7"}>
+                        No logposts found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </Card>
           </>
         )}
         {vehicleId && (

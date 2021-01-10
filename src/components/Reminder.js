@@ -37,7 +37,7 @@ export default function Reminder() {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card>
+        <Card className="logbook-card">
           <Card.Body>
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}

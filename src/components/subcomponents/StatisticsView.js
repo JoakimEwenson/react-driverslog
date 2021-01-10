@@ -20,7 +20,7 @@ export default function StatisticsView({ data }) {
 
   if (data.length > 0) {
     return (
-      <Card className="mx-auto my-3">
+      <Card className="mx-auto my-3 logbook-card">
         <Card.Body>
           <Row className="text-center">
             <Col sm={4}>

@@ -39,7 +39,7 @@ export default function LoginScreen() {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card>
+        <Card className="logbook-card">
           <Card.Body>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>

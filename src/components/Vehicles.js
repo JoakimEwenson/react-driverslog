@@ -41,7 +41,7 @@ export default function Vehicles() {
         <h3>Vehicles</h3>
         <Link to="/add/vehicle">Add new vehicle</Link>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Card className="my-3">
+        <Card className="my-3 logbook-card">
           <Table responsive striped borderless className="m-0 p-0">
             <thead>
               <tr>
