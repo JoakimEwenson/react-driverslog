@@ -29,7 +29,7 @@ export default function LogPostForm() {
   const { postId } = useParams();
   const [isEdit] = useState(postId != null || postId === "" ? true : false);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const [loading, setLoading] = useState(false);
   const [ownerId, setOwnerId] = useState("");
   const [vehicles, setVehicles] = useState([]);

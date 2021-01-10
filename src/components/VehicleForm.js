@@ -30,7 +30,7 @@ export default function VehicleForm() {
     vehicleId != null || vehicleId === "" ? true : false
   );
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const [loading, setLoading] = useState(false);
   const [ownerId, setOwnerId] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
