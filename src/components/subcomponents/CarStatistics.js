@@ -53,7 +53,7 @@ export default function CarStatistics({ data }) {
       {stats.entries > 0 ? (
         <Card className="logbook-card statscard">
           <Card.Body className="text-center">
-            <div>
+            <div className="my-1">
               <h3>
                 <Link to={`/logbook/${data.plate}`}>{data.plate}</Link>
               </h3>
@@ -61,19 +61,19 @@ export default function CarStatistics({ data }) {
                 {stats.entries} logbook entries
               </span>
             </div>
-            <div>
+            <div className="my-1">
               <h1>
                 {stats.consumtionPerDistance.toFixed(2).toLocaleString("sv-SE")}
               </h1>
               <span className="text-muted small">l/100 km</span>
             </div>
-            <div>
+            <div className="my-1">
               <h1>
                 {stats.pricePerDistance.toFixed(2).toLocaleString("sv-SE")}
               </h1>
               <span className="text-muted small">kr/100 km</span>
             </div>
-            <div>
+            <div className="my-1">
               <h1>{stats.avgPrice.toFixed(2).toLocaleString("sv-SE")}</h1>
               <span className="text-muted small">kr/liter</span>
             </div>
