@@ -15,13 +15,9 @@ body {
   font-weight: 600;
 }
 
-.statscard p {
-  font-size: 10pt;
-  margin-left: 3px;
-}
 
 .statscard span {
-  font-size: 13pt;
+  font-size: 10pt;
   margin-left: 3px;
   display: inline;
 }
