@@ -98,8 +98,8 @@ export default function LogPostForm() {
     if (isEdit) {
       try {
         db.collection("logposts").doc(postId).set(Object.assign({}, logpost));
-        setMessage("Logbook entry saved.");
-        //history.push(`/logbook/${plateRef.current.value}`);
+        //setMessage("Logbook entry saved.");
+        history.push(`/logbook/${plateRef.current.value}`);
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -107,8 +107,8 @@ export default function LogPostForm() {
     } else {
       try {
         db.collection("logposts").add(Object.assign({}, logpost));
-        setMessage("New logbook entry created.");
-        //history.push("/logbook/");
+        //setMessage("New logbook entry created.");
+        history.push("/logbook/");
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);

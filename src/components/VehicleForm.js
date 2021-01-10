@@ -111,8 +111,8 @@ export default function VehicleForm() {
         db.collection("vehicles")
           .doc(vehicleId)
           .set(Object.assign({}, vehicle));
-        setMessage("Vehicle data saved.");
-        //history.push("/vehicles");
+        //setMessage("Vehicle data saved.");
+        history.push("/vehicles");
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -120,8 +120,8 @@ export default function VehicleForm() {
     } else {
       try {
         db.collection("vehicles").add(Object.assign({}, vehicle));
-        setMessage("New vehicle created.");
-        //history.push("/vehicles");
+        //setMessage("New vehicle created.");
+        history.push("/vehicles");
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
