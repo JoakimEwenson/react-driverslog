@@ -47,20 +47,25 @@ export default function LogPostForm() {
       .then((doc) => {
         if (doc.exists) {
           const data = doc.data();
-          // Set messages
-          setError("");
-          // Populate form fields
-          plateRef.current.value = data.vehicle;
-          dateRef.current.value = new Date(
-            data.created_timestamp.seconds * 1000
-          ).toLocaleDateString("sv-SE");
-          distanceRef.current.value = data.distance;
-          fuelRef.current.value = data.fuel;
-          fuelPriceRef.current.value = data.fuelprice;
-          commentRef.current.value = data.comment;
-          isPrivateRef.current.Check = data.isPrivate;
-          // Set owner id
-          setOwnerId(data.owner_id);
+          if (data.owner_id !== currentUser.uid) {
+            setError("Unauthorized. Logbook entry does not belong to your account.");
+            setLoading(true);
+          } else {
+            // Set messages
+            setError("");
+            // Populate form fields
+            plateRef.current.value = data.vehicle;
+            dateRef.current.value = new Date(
+              data.created_timestamp.seconds * 1000
+            ).toLocaleDateString("sv-SE");
+            distanceRef.current.value = data.distance;
+            fuelRef.current.value = data.fuel;
+            fuelPriceRef.current.value = data.fuelprice;
+            commentRef.current.value = data.comment;
+            isPrivateRef.current.Check = data.isPrivate;
+            // Set owner id
+            setOwnerId(data.owner_id);
+          }
         } else {
           setError("No data found.");
         }
@@ -99,7 +104,10 @@ export default function LogPostForm() {
       try {
         db.collection("logposts").doc(postId).set(Object.assign({}, logpost));
         setMessage("Logbook entry saved.");
-        setTimeout(() => history.push(`/logbook/${plateRef.current.value}`), 1500)
+        setTimeout(
+          () => history.push(`/logbook/${plateRef.current.value}`),
+          1500
+        );
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -108,8 +116,7 @@ export default function LogPostForm() {
       try {
         db.collection("logposts").add(Object.assign({}, logpost));
         setMessage("New logbook entry created.");
-        setTimeout(() => history.push("/logbook/"), 1500)
-
+        setTimeout(() => history.push("/logbook/"), 1500);
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -128,7 +135,8 @@ export default function LogPostForm() {
             setError("");
             setShowDeleteModal(false);
             history.push("/logbook");
-          }).catch((error) => {
+          })
+          .catch((error) => {
             console.error(error);
             setError(`Error deleting data. ${error}`);
           });
@@ -143,7 +151,8 @@ export default function LogPostForm() {
   // Fetch list of vehicles and populate a select-field
   useEffect(() => {
     var output = [];
-    const unsubscribe = db.collection("vehicles")
+    const unsubscribe = db
+      .collection("vehicles")
       .where("owner_id", "==", currentUser.uid)
       .orderBy("plate", "asc")
       .get()
@@ -161,7 +170,7 @@ export default function LogPostForm() {
         setVehicles(output);
       });
 
-      return () => unsubscribe;
+    return () => unsubscribe;
   }, [currentUser]);
 
   return (
@@ -272,7 +281,11 @@ export default function LogPostForm() {
               </Form.Group>
               {isEdit ? (
                 <Container className="text-center">
-                  <Button variant="danger" onClick={handleShow}>
+                  <Button
+                    variant="danger"
+                    disabled={loading}
+                    onClick={handleShow}
+                  >
                     Delete
                   </Button>
                 </Container>
@@ -290,6 +303,7 @@ export default function LogPostForm() {
                     </p>
                     <Button
                       variant="danger"
+                      disabled={loading}
                       className="mx-auto text-center"
                       onClick={handleRemoveEntry}
                     >

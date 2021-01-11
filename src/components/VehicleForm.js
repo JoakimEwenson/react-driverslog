@@ -47,16 +47,21 @@ export default function VehicleForm() {
       .then((doc) => {
         if (doc.exists) {
           const data = doc.data();
-          // Populate fields
-          setCreated(data.created_timestamp.seconds);
-          plateRef.current.value = data.plate;
-          makeRef.current.value = data.make;
-          modelRef.current.value = data.model;
-          modelYearRef.current.value = data.modelyear;
-          displayNameRef.current.value = data.displayname;
-          isPrivateRef.current.checked = data.isPrivate;
-          // Set owner id from Firestore data
-          setOwnerId(data.owner_id);
+          if (data.owner_id !== currentUser.uid) {
+            setError("Unauthorized. Vehicle not registered to your account.");
+            setLoading(true);
+          } else {
+            // Populate fields
+            setCreated(data.created_timestamp.seconds);
+            plateRef.current.value = data.plate;
+            makeRef.current.value = data.make;
+            modelRef.current.value = data.model;
+            modelYearRef.current.value = data.modelyear;
+            displayNameRef.current.value = data.displayname;
+            isPrivateRef.current.checked = data.isPrivate;
+            // Set owner id from Firestore data
+            setOwnerId(data.owner_id);
+          }
         } else {
           setError("No vehicle found.");
         }
@@ -114,7 +119,7 @@ export default function VehicleForm() {
           .doc(vehicleId)
           .set(Object.assign({}, vehicle));
         setMessage("Vehicle data saved.");
-        setTimeout(() => history.push("/vehicles"), 1500)
+        setTimeout(() => history.push("/vehicles"), 1500);
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -123,7 +128,7 @@ export default function VehicleForm() {
       try {
         db.collection("vehicles").add(Object.assign({}, vehicle));
         setMessage("New vehicle created.");
-        setTimeout(() => history.push("/vehicles"), 1500)
+        setTimeout(() => history.push("/vehicles"), 1500);
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -157,7 +162,7 @@ export default function VehicleForm() {
           .then(() => {
             setError("");
             setShowDeleteModal(false);
-            setTimeout(() => history.push("/vehicles"), 500)
+            setTimeout(() => history.push("/vehicles"), 500);
           })
           .catch((error) => {
             console.error(error);
@@ -234,7 +239,11 @@ export default function VehicleForm() {
               </Form.Group>
               {isEdit ? (
                 <Container className="text-center">
-                  <Button variant="danger" onClick={handleShow}>
+                  <Button
+                    variant="danger"
+                    disabled={loading}
+                    onClick={handleShow}
+                  >
                     Delete
                   </Button>
                 </Container>
@@ -256,6 +265,7 @@ export default function VehicleForm() {
                     </p>
                     <Button
                       variant="danger"
+                      disabled={loading}
                       className="mx-auto text-center"
                       onClick={handleRemoveVehicle}
                     >
