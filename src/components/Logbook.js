@@ -88,7 +88,7 @@ export default function Logbook() {
                         <td>{parseFloat(row.data.distance).toFixed(1)} km</td>
                         <td>{parseFloat(row.data.fuel).toFixed(2)} liter</td>
                         <td>
-                          {parseFloat(row.data.fuelprice)}{" "}
+                          {parseFloat(row.data.fuelprice).toFixed(2)}{" "}
                           {row.data.currency === "SEK"
                             ? " kr/liter"
                             : row.data.currency + "/liter"}
