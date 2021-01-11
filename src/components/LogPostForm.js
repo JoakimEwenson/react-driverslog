@@ -29,7 +29,7 @@ export default function LogPostForm() {
   const { postId } = useParams();
   const [isEdit] = useState(postId != null || postId === "" ? true : false);
   const [error, setError] = useState("");
-  const [message] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [ownerId, setOwnerId] = useState("");
   const [vehicles, setVehicles] = useState([]);
@@ -98,8 +98,8 @@ export default function LogPostForm() {
     if (isEdit) {
       try {
         db.collection("logposts").doc(postId).set(Object.assign({}, logpost));
-        //setMessage("Logbook entry saved.");
-        history.push(`/logbook/${plateRef.current.value}`);
+        setMessage("Logbook entry saved.");
+        setTimeout(() => history.push(`/logbook/${plateRef.current.value}`), 1500)
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);
@@ -107,8 +107,9 @@ export default function LogPostForm() {
     } else {
       try {
         db.collection("logposts").add(Object.assign({}, logpost));
-        //setMessage("New logbook entry created.");
-        history.push("/logbook/");
+        setMessage("New logbook entry created.");
+        setTimeout(() => history.push("/logbook/"), 1500)
+
       } catch (error) {
         setError(`Error saving data. ${error}`);
         setLoading(false);

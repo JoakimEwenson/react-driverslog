@@ -30,7 +30,7 @@ export default function VehicleForm() {
     vehicleId != null || vehicleId === "" ? true : false
   );
   const [error, setError] = useState("");
-  const [message] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [created, setCreated] = useState();
   const [ownerId, setOwnerId] = useState("");
@@ -113,8 +113,8 @@ export default function VehicleForm() {
         db.collection("vehicles")
           .doc(vehicleId)
           .set(Object.assign({}, vehicle));
-        //setMessage("Vehicle data saved.");
-        history.push("/vehicles");
+        setMessage("Vehicle data saved.");
+        setTimeout(() => history.push("/vehicles"), 1500)
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -122,8 +122,8 @@ export default function VehicleForm() {
     } else {
       try {
         db.collection("vehicles").add(Object.assign({}, vehicle));
-        //setMessage("New vehicle created.");
-        history.push("/vehicles");
+        setMessage("New vehicle created.");
+        setTimeout(() => history.push("/vehicles"), 1500)
       } catch (error) {
         setError(`Error saving vehicle data. ${error}`);
         setLoading(false);
@@ -157,7 +157,7 @@ export default function VehicleForm() {
           .then(() => {
             setError("");
             setShowDeleteModal(false);
-            history.push("/vehicles");
+            setTimeout(() => history.push("/vehicles"), 500)
           })
           .catch((error) => {
             console.error(error);
