@@ -32,6 +32,7 @@ export default function VehicleForm() {
   const [error, setError] = useState("");
   const [message] = useState("");
   const [loading, setLoading] = useState(false);
+  const [created, setCreated] = useState();
   const [ownerId, setOwnerId] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
@@ -47,6 +48,7 @@ export default function VehicleForm() {
         if (doc.exists) {
           const data = doc.data();
           // Populate fields
+          setCreated(data.created_timestamp.seconds);
           plateRef.current.value = data.plate;
           makeRef.current.value = data.make;
           modelRef.current.value = data.model;
@@ -95,7 +97,7 @@ export default function VehicleForm() {
     setLoading(true);
 
     const vehicle = new Vehicle(
-      new Date(),
+      created ? new Date(created * 1000) : new Date(),
       displayNameRef.current.value,
       new Date(),
       "",

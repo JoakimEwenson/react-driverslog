@@ -28,7 +28,7 @@ export default function AppMenu() {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <LinkContainer to="/dashboard" eventKey="dashboard">
+      <LinkContainer to="/dashboard">
         <Navbar.Brand>
           <img src={Logo} alt="React logo" style={{width: "50px"}} />
           Drivers logbook
