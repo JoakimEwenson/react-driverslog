@@ -1,6 +1,6 @@
 # Drivers logbook in React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A little project created to improve my skills in React, working with Firebase for authentication and Cloud Firestore for data storage. Created in about 30-40 hours in total as of january 13th 2021, planning included. Data structure inherited from an old PHP/MySQL-based project that can be found at https://www.ewenson.se/billogg/
 
 ## Features
 
